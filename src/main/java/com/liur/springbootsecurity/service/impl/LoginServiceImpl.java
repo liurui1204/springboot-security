@@ -1,9 +1,6 @@
 package com.liur.springbootsecurity.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liur.springbootsecurity.common.ResponseResult;
-import com.liur.springbootsecurity.entity.SysUser;
-import com.liur.springbootsecurity.mapper.SysUserMapper;
 import com.liur.springbootsecurity.security.SecurityUserDetail;
 import com.liur.springbootsecurity.service.LoginService;
 import com.liur.springbootsecurity.util.JwtUtil;
@@ -12,16 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
     private RedisUtil redisUtil;
 
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private JwtUserDetailService jwtUserDetailService;
 
     /**
      * 登陆业务层
@@ -56,9 +47,11 @@ public class LoginServiceImpl implements LoginService {
         if(Objects.isNull(authentication)){
             throw new RuntimeException("用户名或密码错误");
         }
-        //使用userid生成token
-        SecurityUserDetail userDetail = (SecurityUserDetail) authentication.getPrincipal();
+
+        //将用户的信息和权限封装到userDetails中
+        SecurityUserDetail userDetail = (SecurityUserDetail) jwtUserDetailService.loadUserByUsername(userName);
         String userId = userDetail.getSysUser().getId().toString();
+        //获取token
         String jwt = JwtUtil.createJWT(userId);
         //authenticate存入redis中
         redisUtil.setCacheObject("login:"+userId,userDetail);

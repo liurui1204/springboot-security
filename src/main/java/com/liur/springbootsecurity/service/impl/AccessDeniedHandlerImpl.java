@@ -1,7 +1,6 @@
 package com.liur.springbootsecurity.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.liur.springbootsecurity.common.ResponseResult;
 import com.liur.springbootsecurity.util.WebUtils;
 import org.springframework.http.HttpStatus;

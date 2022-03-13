@@ -30,10 +30,7 @@ public class LoginController {
     private JwtUserDetailService jwtUserDetailService;
 
     @GetMapping("/login")
-    public ResponseResult login(String userName, String password, HttpServletRequest request){
-        UserDetails userDetails = jwtUserDetailService.loadUserByUsername(userName);
-        String code = jwtTokenUtil.generateToken(userDetails);
-        System.out.println(userDetails.getUsername());
+    public ResponseResult login(String userName, String password){
         return loginService.login(userName, password);
     }
 

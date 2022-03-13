@@ -56,8 +56,6 @@ public class JwtUserDetailService implements UserDetailsService {
 //            }
 //        }
         authorityList.add(new SimpleGrantedAuthority("sys:manage"));
-        UserDetails userDetail =  new SecurityUserDetail(user, authorityList);
-        System.out.println(userDetail.getUsername());
-        return userDetail;
+        return new SecurityUserDetail(user, authorityList);
     }
 }
