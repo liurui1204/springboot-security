@@ -1,0 +1,27 @@
+
+##配置jwt参数
+jwt:
+  secret: secret
+  expiration: 7200000
+  token: Authorization
+
+##配置mysql数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test-security?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: lr19971204lr
+  redis:
+    host: localhost
+    port: 6379
+
+##扫面mapper.xml
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+
+##配置端口号
+server:
+  port: 8080
+
+
